@@ -86,6 +86,7 @@ RCT_EXPORT_METHOD(connectToProtectedSSIDPrefix:(NSString*)ssid
                   rejecter:(RCTPromiseRejectBlock)reject) {
 
     if (@available(iOS 13.0, *)) {
+        NSLog(@"%@", ssid);
         NEHotspotConfiguration* configuration = [[NEHotspotConfiguration alloc] initWithSSIDPrefix:ssid passphrase:passphrase isWEP:isWEP];
         configuration.joinOnce = false;
 
@@ -94,8 +95,6 @@ RCT_EXPORT_METHOD(connectToProtectedSSIDPrefix:(NSString*)ssid
                 reject([self parseError:error], @"Error while configuring WiFi", error);
             } else {
                 // Verify SSID connection
-                // if ([ssid isEqualToString:[self getWifiSSID]]){
-                // if ([[self getWifiSSID] hasPrefix:[ssid]]) {
                 if ([[self getWifiSSID] hasPrefix:ssid]) {
                     resolve(nil);
                 } else {
